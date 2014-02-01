@@ -1,0 +1,1 @@
+# Embedded Jetty template application
