@@ -1,0 +1,79 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jruby</groupId>
+  <artifactId>template-rack-embedded-jetty</artifactId>
+  <version>0.1.0</version>
+  <packaging>war</packaging>
+  <name>template-rack-embedded-jetty</name>
+  <properties>
+    <jruby.plugins.version>1.0.0-rc</jruby.plugins.version>
+    <tesla.dump.pom>pom.xml</tesla.dump.pom>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>bundler</artifactId>
+      <version>[1.5.2,1.5.99999]</version>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>warbler</artifactId>
+      <version>[1.4.0,1.4.99999]</version>
+      <type>gem</type>
+    </dependency>
+    <dependency>
+      <groupId>rubygems</groupId>
+      <artifactId>rack</artifactId>
+      <version>[1.5.2,1.5.99999]</version>
+      <type>gem</type>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>rubygems-releases</id>
+      <url>http://rubygems-proxy.torquebox.org/releases</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>de.saumya.mojo</groupId>
+        <artifactId>gem-maven-plugin</artifactId>
+        <version>1.0.0-rc3</version>
+        <executions>
+          <execution>
+            <id>pack-war with warbler</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <filename>warble</filename>
+            </configuration>
+          </execution>
+          <execution>
+            <id>move war to maven build dir</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <script>
+require 'fileutils'
+FileUtils.mv '${project.artifactId}.war', '${project.build.directory}/'
+ 
+</script>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
