@@ -52,19 +52,22 @@
               <filename>warble</filename>
             </configuration>
           </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
           <execution>
             <id>move war to maven build dir</id>
             <phase>package</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
             <configuration>
-              <script>
-require 'fileutils'
-FileUtils.mv '${project.artifactId}.war', '${project.build.directory}/'
- 
-</script>
+              <tasks>
+                <move file="${project.artifactId}.war" todir="${project.build.directory}"/>
+              </tasks>
             </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
